@@ -1,0 +1,1 @@
+INSERT INTO vue_shop.users (userName, userPwd, isDelete, createdAt, updatedAt) VALUES ('admin', '123456', 0, '2017-11-11 23:19:52', '2017-11-11 23:19:54');

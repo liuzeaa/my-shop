@@ -1,0 +1,3 @@
+INSERT INTO vue_shop.cartlists (productNum, isDelete, createdAt, updatedAt, userId, goodId, checked) VALUES (1, 0, '2017-11-11 23:20:18', '2017-11-11 23:20:20', 1, 5, 1);
+INSERT INTO vue_shop.cartlists (productNum, isDelete, createdAt, updatedAt, userId, goodId, checked) VALUES (4, 0, '2017-11-12 11:58:46', '2017-11-12 11:58:48', 1, 17, 1);
+INSERT INTO vue_shop.cartlists (productNum, isDelete, createdAt, updatedAt, userId, goodId, checked) VALUES (1, 0, '2017-11-12 11:59:27', '2017-11-12 11:59:25', 1, 13, 1);
