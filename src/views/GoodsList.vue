@@ -194,7 +194,6 @@
         }, 500)
       },
       addCart(productId){
-debugger;
         axios.post("/goods/addCart",{
           goodId:productId
         }).then((res)=>{

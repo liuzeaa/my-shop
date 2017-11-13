@@ -56,49 +56,46 @@ router.get('/list',function(req,res,next){
   })
 })
 router.post('/addCart',function(req,res,next){
-  /*if(req.cookies && req.cookies.userId) {
-    var userId = req.cookies.userId, productId = req.body.id;
-    console.log(productId+'111')
-   model.CartList.findOne({
-     where:{
-       goodId:productId
-     }
-   }).then(doc=>{
-     console.log(doc+'222')
-     if(doc){
-      doc.productNum++;
-      res.json({
-        status:'0',
-        msg:'',
-        result:'suc'
+
+  var userId = req.cookies.userId,productId = req.body.goodId;
+  console.log(userId,productId)
+  model.CartList.findOrCreate({
+    where:{
+      userId:userId,
+      goodId:productId
+    },
+    defaults:{
+      userId:userId,
+      goodId:productId,
+      checked:1,
+      isDelete:0,
+      productNum:0
+    }
+  }).spread(function(user, created) {
+    if(user){
+      console.log(JSON.stringify(user))
+      var productNum = user.productNum+1;
+      model.CartList.update({
+        productNum:productNum
+      },{
+        where:{
+          goodId:user.goodId
+        }
+      }).then(doc=>{
+        res.json({
+          status:'0',
+          msg:'',
+          result:'suc'
+        });
+      }).catch(err=>{
+        res.json({
+          status:'1',
+          msg:err.message,
+          result:''
+        });
       })
-     }else{
-       model.CartList.create({
-         userId:userId,
-         goodId:productId,
-         productNum:1,
-         isDelete: 0,
-         createdAt: new Date().Format('yyyy-MM-dd hh:mm:ss'),
-         updatedAt: new Date().Format('yyyy-MM-dd hh:mm:ss'),
-       }).then(doc2=>{
-         res.json({
-           status: '0',
-           msg: '',
-           result: 'suc'
-         })
-       }).catch(err2=>{
-         res.json({
-           status: "1",
-           msg: err2.message
-         })
-       })
-     }
-   }).catch(err=>{
-     res.json({
-       status: "1",
-       msg: err.message
-     })
-   })
- }*/
+    }
+  });
+
 })
 module.exports = router;
