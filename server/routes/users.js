@@ -172,6 +172,7 @@ router.post("/cartEdit", function (req,res,next) {
     });
   })
 });
+//全选商品
 router.patch("/editCheckAll", function (req,res,next) {
   var userId = req.cookies.userId,
     checkAll = req.body.checkAll?'1':'0';
@@ -180,6 +181,51 @@ router.patch("/editCheckAll", function (req,res,next) {
   },{
     where:{
       userId:userId
+    }
+  }).then(doc=>{
+    res.json({
+      status:'0',
+      msg:'',
+      result:'suc'
+    });
+  }).catch(err=>{
+    res.json({
+      status:'1',
+      msg:err.message,
+      result:''
+    });
+  })
+});
+
+//获取地址列表
+router.get('/addressList',function(req,res,next){
+  var userId = req.cookies.userId;
+  model.Address.findAll({
+    where:{
+      userId:userId,
+      isDelete:0
+    }
+  }).then(function(doc) {
+    res.json({
+      status:'0',
+      msg:'',
+      result:doc
+    });
+  }).catch(err=>{
+    res.json({
+      status:'1',
+      msg:err.message,
+      result:''
+    })
+  })
+})
+//删除地址列表
+router.post('/delAddress',function(){
+  var userId = req.cookies.userId,addressId = req.body.addressId;
+  model.CartList.update({'isDelete':1},{
+    where:{
+      userId:userId,
+      id:addressId
     }
   }).then(doc=>{
     res.json({
