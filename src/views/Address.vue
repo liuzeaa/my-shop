@@ -70,12 +70,12 @@
                                         <dd class="tel">{{item.tel}}</dd>
                                     </dl>
                                     <div class="addr-opration addr-del">
-                                        <a href="javascript:;" class="addr-del-btn" @click="delAddressConfirm(item.addressId)">
+                                        <a href="javascript:;" class="addr-del-btn" @click="delAddressConfirm(item.id)">
                                             <svg class="icon icon-del"><use xlink:href="#icon-del"></use></svg>
                                         </a>
                                     </div>
                                     <div class="addr-opration addr-set-default">
-                                        <a href="javascript:;" class="addr-set-default-btn" v-if="!item.isDefault" @click="setDefault(item.addressId)"><i>设为默认地址</i></a>
+                                        <a href="javascript:;" class="addr-set-default-btn" v-if="!item.isDefault" @click="setDefault(item.id)"><i>设为默认地址</i></a>
                                     </div>
                                     <div class="addr-opration addr-default" v-if="item.isDefault">默认地址</div>
                                 </li>
@@ -196,11 +196,13 @@
                 }
             },
             setDefault(addressId){
-              var userId =  this.$cookie.get('userId');
+                var userId =  this.$cookie.get('userId');
                 axios.post("/users/setDefault",{
-                    addressId:addressId
+                    id:addressId,
+                    userId:userId
                 }).then((response)=>{
                     let res = response.data;
+                    debugger;
                     if(res.status=='0'){
                         console.log("set default");
                         this.init();
@@ -220,9 +222,11 @@
                 }
             },
             delAddress(){
+                console.log(this.addressId)
+                var userId =  this.$cookie.get('userId');
                 axios.post("/users/delAddress",{
-                    id:this.addressId,
-                    userId:userId
+                  userId:userId,
+                  id: this.addressId
                 }).then((response)=>{
                     let res = response.data;
                     if(res.status=="0"){

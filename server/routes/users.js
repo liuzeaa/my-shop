@@ -220,13 +220,73 @@ router.get('/addressList',function(req,res,next){
   })
 })
 //删除地址列表
-router.post('/delAddress',function(){
-  var userId = req.cookies.userId,addressId = req.body.addressId;
-  model.CartList.update({'isDelete':1},{
+router.post('/delAddress',function(req,res,next){
+  var userId = req.cookies.userId,addressId = req.body.id;
+  model.Address.update({'isDelete':1},{
     where:{
       userId:userId,
       id:addressId
     }
+  }).then(doc=>{
+    res.json({
+      status:'0',
+      msg:'',
+      result:'suc'
+    });
+  }).catch(err=>{
+    res.json({
+      status:'1',
+      msg:err.message,
+      result:''
+    });
+  })
+})
+
+//设置默认地址
+router.post('/setDefault',function(req,res,next){
+  var userId=  req.cookies.userId,addressId = req.body.id;
+  model.Address.update({'isDefault':0},{
+    where:{
+      userId:userId,
+      id:{
+        $ne:addressId
+      }
+    }
+  }).then(doc=>{
+    model.Address.update({'isDefault':1},{
+      where:{
+        userId:userId,
+        id:addressId
+      }
+    }).then(doc=>{
+      res.json({
+        status:'0',
+        msg:'',
+        result:'suc'
+      });
+    })
+    /*console.log(JSON.stringify(doc));
+    */
+  }).catch(err=>{
+    res.json({
+      status:'1',
+      msg:err.message,
+      result:''
+    });
+  })
+})
+
+//新增地址
+router.post('addAdderss',function(req,res,next){
+  var userId = req.cookies.userId,userName = req.body.userName,streetName = req.body.streetName,postCode = req.body.postCode,tel = req.body.tel;
+  model.Address.create({
+    userName:userName,
+    streetName:streetName,
+    postCode:postCode,
+    tel:tel,
+    isDefault:0,
+    isDelete:0,
+    userId:userId
   }).then(doc=>{
     res.json({
       status:'0',

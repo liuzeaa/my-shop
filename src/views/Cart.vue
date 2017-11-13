@@ -254,6 +254,7 @@
         }else if(flag=='minu'){
           if(item.productNum<=1){
             this.delCartConfirm(item);
+            return;
           }
           item.productNum--;
         }else{
