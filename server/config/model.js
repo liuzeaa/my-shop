@@ -14,7 +14,10 @@ const Users = sequelize.define('users',{
   },
   userName:Sequelize.STRING,
   userPwd:Sequelize.STRING,
-  isDelete:Sequelize.INTEGER,
+  isDelete:{
+    type:Sequelize.INTEGER,
+    defaultValue:0
+  }
 });
 const Goods = sequelize.define('goods',{
   id: {
@@ -23,10 +26,13 @@ const Goods = sequelize.define('goods',{
     autoIncrement: true,
   },
   productName:Sequelize.STRING,
-  salePrice:Sequelize.STRING,
+  salePrice:Sequelize.INTEGER,
   productImage:Sequelize.STRING,
   productUrl:Sequelize.STRING,
-  isDelete:Sequelize.INTEGER,
+  isDelete:{
+    type:Sequelize.INTEGER,
+    defaultValue:0
+  }
 });
 
 const Address = sequelize.define('address',{
@@ -39,8 +45,14 @@ const Address = sequelize.define('address',{
   streetName:Sequelize.STRING,
   postCode:Sequelize.STRING,
   tel:Sequelize.STRING,
-  isDefault: Sequelize.INTEGER,
-  isDelete:Sequelize.INTEGER,
+  isDefault: {
+    type:Sequelize.INTEGER,
+    defaultValue:0
+  },
+  isDelete:{
+    type:Sequelize.INTEGER,
+    defaultValue:0
+  }
 });
 Address.belongsTo(Users)
 
@@ -51,7 +63,14 @@ const CartList = sequelize.define('cartList',{
     autoIncrement: true,
   },
   productNum:Sequelize.INTEGER,
-  isDelete:Sequelize.INTEGER,
+  isDelete:{
+    type:Sequelize.INTEGER,
+    defaultValue:0
+  },
+  checked:{
+    type:Sequelize.INTEGER,
+    defaultValue:1
+  }
 })
 CartList.belongsTo(Users);
 CartList.belongsTo(Goods);
@@ -63,7 +82,11 @@ const OrderList = sequelize.define('orderList',{
     autoIncrement: true,
   },
   orderStatus:Sequelize.STRING,
-  isDelete:Sequelize.INTEGER,
+  isDelete:{
+    type:Sequelize.INTEGER,
+    defaultValue:0
+  },
+  orderTotal:Sequelize.INTEGER,
 })
 OrderList.belongsTo(Users);
 OrderList.belongsTo(Goods);

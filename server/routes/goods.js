@@ -31,7 +31,8 @@ router.get('/list',function(req,res,next){
       salePrice:{
         $gt:priceGt,
         $lte:priceLte
-      }
+      },
+      isDelete:0
     },
     offset: skip,
     limit: pageSize,
