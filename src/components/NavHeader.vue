@@ -168,7 +168,7 @@
     },
     computed: {
       ...mapState(['nickName','cartCount']),
-      ...mapGetters(["cartCount"])
+      ...mapGetters(['nickName','cartCount'])
     },
     mounted(){
       this.checkLogin();
