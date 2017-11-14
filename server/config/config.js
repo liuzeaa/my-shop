@@ -1,6 +1,6 @@
 module.exports = {
-    host:'rm-uf6jhj76q18y9r1rxo.mysql.rds.aliyuncs.com',
+    host:'localhost',
     username:'root',
-    password:'Liuze828',
+    password:'liuze828',
     database:'vue_shop'
 }
