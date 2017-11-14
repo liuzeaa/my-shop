@@ -40,6 +40,10 @@ router.get('/list',function(req,res,next){
       ['salePrice', sort],
     ]
   }).then((result)=>{
+    console.log(Math.ceil(result.count/pageSize),page)
+    if(page > Math.ceil(result.count/pageSize)){
+      return;
+    }
     res.json({
       status: '0',
       msg:'',
@@ -72,20 +76,27 @@ router.post('/addCart',function(req,res,next){
       productNum:0
     }
   }).spread(function(user, created) {
-    if(user){
+   if(user){
       console.log(JSON.stringify(user))
-      var productNum = user.productNum+1;
+
+      let productNum;
+      if(user.isDelete==1){
+        productNum = 1
+      }else{
+        productNum = user.productNum+1;
+      }
       model.CartList.update({
-        productNum:productNum
+        productNum:productNum,
+        isDelete:0
       },{
         where:{
-          goodId:user.goodId
+          goodId:user.goodId,
         }
       }).then(doc=>{
         res.json({
           status:'0',
           msg:'',
-          result:'suc'
+          result:"suc"
         });
       }).catch(err=>{
         res.json({

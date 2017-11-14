@@ -158,10 +158,6 @@
               }else{
                 this.busy = false;
               }
-              if(this.page>=Math.ceil(res.result.count/this.page)){
-                this.page = Math.ceil(res.result.count/this.page);
-                this.busy = false;
-              }
             }else{
               this.goodsList = res.result.list;
               this.busy = false;
@@ -199,6 +195,13 @@
         }).then((res)=>{
           var res = res.data;
           if(res.status==0){
+            var userId =  this.$cookie.get('userId');
+              axios.get('users/getCartCount?userId='+userId+'').then(res1=>{
+                var res1= res1.data;
+              if(res.status=='0'){
+                this.$store.commit("updateCartCount",res1.result);
+              }
+            })
             this.mdShowCart = true;
           }else{
             this.mdShow = true;

@@ -25,13 +25,24 @@ const store = new Vuex.Store({
     nickName:'',
     cartCount:0
   },
+  getters:{
+    cartCount(state){
+      return state.cartCount
+    }
+  },
   mutations:{
     updateUserInfo(state,nickName){
       state.nickName = nickName
     },
     updateCartCount(state,cartCount){
       state.cartCount = cartCount
-    }
+    },
+    increment (state,cartCount) {
+      state.cartCount = state.cartCount+cartCount
+    },
+    decrement(state,cartCount){
+      state.cartCount = state.cartCount-cartCount
+    },
   }
 })
 /* eslint-disable no-new */

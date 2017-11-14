@@ -156,7 +156,7 @@
 <script>
   import './../assets/css/login.css'
   import axios from 'axios'
-  import { mapState } from 'vuex'
+  import { mapState,mapGetters } from 'vuex'
   export default {
     data(){
       return{
@@ -167,7 +167,8 @@
       }
     },
     computed: {
-      ...mapState(['nickName','cartCount'])
+      ...mapState(['nickName','cartCount']),
+      ...mapGetters(["cartCount"])
     },
     mounted(){
       this.checkLogin();
@@ -222,7 +223,6 @@
       getCartCount(){
        var userId =  this.$cookie.get('userId');
         axios.get("/users/getCartCount?userId="+userId+"").then(res=>{
-          debugger;
           var res = res.data;
         this.$store.commit("updateCartCount",res.result);
       });

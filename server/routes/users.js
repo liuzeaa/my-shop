@@ -76,14 +76,14 @@ router.get("/getCartCount", function (req,res,next) {
         isDelete:0
       }
     }).then(doc=>{
-      let cartCount = 0;
+     /* let cartCount = 0;
       doc.map(function(item){
         cartCount+=parseInt(item.productNum);
-      })
+      })*/
       res.json({
         status:"0",
         msg:"",
-        result:cartCount
+        result:doc.length
       });
     }).catch(err=>{
       res.json({
@@ -127,7 +127,7 @@ router.get("/cartList", function (req,res,next) {
 //购物车删除
 router.patch("/cartDel", function (req,res,next) {
   var userId = req.cookies.userId,cartId = req.body.id;
-  model.CartList.update({'isDelete':1},{
+  model.CartList.update({'isDelete':1,'productNum':0},{
     where:{
       userId:userId,
       id:cartId
