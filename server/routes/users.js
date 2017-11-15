@@ -4,7 +4,10 @@ var router = express.Router();
 var model = require('../config/model')
 const USER = model.Users
 const connect = model.connect
+//注册接口
+router.post('/register',function(req,res,next){
 
+})
 // 登录接口
 router.post("/login", function (req,res,next) {
   USER.findOne({
