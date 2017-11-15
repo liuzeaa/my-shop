@@ -61,15 +61,15 @@
                             <li v-for="item in cartList" v-if="item.checked=='1'">
                                 <div class="cart-tab-1">
                                     <div class="cart-item-pic">
-                                        <img v-lazy="'/static/'+item.productImage" :alt="item.productName">
+                                        <img v-lazy="'/static/'+item.good.productImage" :alt="item.productName">
                                     </div>
                                     <div class="cart-item-title">
-                                        <div class="item-name">{{item.productName}}</div>
+                                        <div class="item-name">{{item.good.productName}}</div>
 
                                     </div>
                                 </div>
                                 <div class="cart-tab-2">
-                                    <div class="item-price">{{item.salePrice|currency('￥')}}</div>
+                                    <div class="item-price">{{item.good.salePrice|currency('￥')}}</div>
                                 </div>
                                 <div class="cart-tab-3">
                                     <div class="item-quantity">
@@ -82,7 +82,7 @@
                                     </div>
                                 </div>
                                 <div class="cart-tab-4">
-                                    <div class="item-price-total">{{(item.salePrice*item.productNum)|currency('￥')}}</div>
+                                    <div class="item-price-total">{{(item.good.salePrice*item.productNum)|currency('￥')}}</div>
                                 </div>
                             </li>
                         </ul>
@@ -163,7 +163,7 @@
                 axios.get("/users/cartList").then((response)=>{
                     let res = response.data;
                     this.cartList = res.result;
-
+                    console.log(JSON.stringify(this.cartList))
                     this.cartList.forEach((item)=>{
                         if(item.checked=='1'){
                             this.subTotal += item.salePrice*item.productNum;

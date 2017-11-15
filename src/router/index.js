@@ -30,12 +30,12 @@ export default new Router({
       component:Address
     },
     {
-      path:'orderConfirm',
+      path:'/orderConfirm',
       name:'OrderConfirm',
       component:OrderConfirm
     },
     {
-      path:'orderSuccess',
+      path:'/orderSuccess',
       name:'OrderSuccess',
       component:OrderSuccess
     }

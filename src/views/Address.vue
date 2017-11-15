@@ -79,8 +79,8 @@
                                     </div>
                                     <div class="addr-opration addr-default" v-if="item.isDefault">默认地址</div>
                                 </li>
-                                <li class="addr-new">
-                                    <div class="add-new-inner">
+                                <li class="addr-new" @click="is_addAdress=true">
+                                    <div class="add-new-inner" >
                                         <i class="icon-add">
                                             <svg class="icon icon-add"><use xlink:href="#icon-add"></use></svg>
                                         </i>
@@ -124,6 +124,51 @@
                 </div>
             </div>
         </div>
+      <div class="md-modal modal-msg md-modal-transition" :class="{'md-show':is_addAdress}">
+        <div class="md-modal-inner">
+          <div class="md-top">
+            <div class="md-title">新增用户地址</div>
+            <button class="md-close" @click="is_addAdress=false">Close</button>
+          </div>
+          <div class="md-content">
+            <div class="confirm-tips">
+              <div class="error-wrap">
+                <span class="error error-show" v-show="errorTip">请输入内容</span>
+              </div>
+              <ul>
+                <li class="regi_form_input" :class="{ 'form-group--error': $v.address.userName.$error }">
+                  <i class="icon IconPeople"></i>
+                  <input type="text" tabindex="1" name="userName" v-model.trim="address.userName" class="regi_login_input regi_login_input_left" placeholder="姓名" @input="$v.address.userName.$touch()">
+                </li>
+                <span class="form-group__message" v-if="!$v.address.userName.required">姓名不能为空</span>
+                <span class="form-group__message" v-if="!$v.address.userName.minLength">姓名不能太短</span>
+                <li class="regi_form_input noMargin" :class="{ 'form-group--error': $v.address.streetName.$error }">
+                  <i class="icon IconPwd"></i>
+                  <input type="text" tabindex="2"  name="streetName" v-model.trim="address.streetName" class="regi_login_input regi_login_input_left login-input-no input_text" placeholder="地址"  @input="$v.address.streetName.$touch()">
+                </li>
+                <span class="form-group__message" v-if="!$v.address.streetName.required">地址不能为空</span>
+                <li class="regi_form_input noMargin" :class="{ 'form-group--error': $v.address.postCode.$error }">
+                  <i class="icon IconPwd"></i>
+                  <input type="number" tabindex="2"  name="postCode" v-model.trim="address.postCode" class="regi_login_input regi_login_input_left login-input-no input_text" placeholder="邮编" @input="$v.address.postCode.$touch()" >
+                </li>
+                <span class="form-group__message" v-if="!$v.address.postCode.required">邮编不能为空</span>
+                <span class="form-group__message" v-if="!$v.address.postCode.minLength">邮编必须是6位</span>
+                <li class="regi_form_input noMargin" :class="{ 'form-group--error': $v.address.tel.$error }">
+                  <i class="icon IconPwd"></i>
+                  <input type="number" tabindex="2"  name="tel" v-model.trim="address.tel" class="regi_login_input regi_login_input_left login-input-no input_text" placeholder="电话" @input="$v.address.tel.$touch()" >
+                </li>
+                <span class="form-group__message" v-if="!$v.address.tel.required">电话不能为空</span>
+                <span class="form-group__message" v-if="!$v.address.tel.minLength">电话必须是11位</span>
+              </ul>
+            </div>
+            <div class="btn-group" style="display: flex;justify-content: center" @input="$v.address.$touch()">
+              <a href="javascript:;" class="btn btn--m" @click="addAddress" style="width:30%;">确定</a>
+              <a href="javascript:;" class="btn btn--m btn--red" @click="is_addAdress=false" style="width:30%;margin-left: 10%">取消</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="md-overlay" v-if="is_addAdress" @click="is_addAdress=false"></div>
         <modal :mdShow="isMdShow_del" @close="closeModal">
             <p slot="message">
                 您是否确认要删除此地址?
@@ -145,6 +190,22 @@
     </div>
 </template>
 <style>
+  .form-group__message{
+    display: none;
+    font-size: .95rem;
+    color: #CC3333;
+    text-align: left;
+    text-indent: 2em;
+    margin-bottom: 12px;
+  }
+  .form-group--error+.form-group__message {
+    display: block;
+    color: #CC3333;
+  }
+
+  .form-group--error input, .form-group--error input:focus, .form-group--error input:hover, .form-group--error textarea {
+    border-color: #CC3333;
+  }
 </style>
 <script>
     import NavHeader from './../components/NavHeader'
@@ -153,17 +214,45 @@
     import Modal from './../components/Modal'
     import {currency} from './../util/index'
     import axios from 'axios';
+    import { required, minLength } from 'vuelidate/lib/validators'
     export default{
         data(){
             return{
+                address:{
+                  userName:'',
+                  streetName:'',
+                  postCode:null,
+                  tel:null
+                },
+                errorTip:false,
                 limit:3,
                 checkIndex:0,
                 selectedAddrId:'',
                 addressList:[],
                 isMdShow_del:false,
                 isMdShow_undel:false,
+                is_addAdress:false,
                 addressId:''
             }
+        },
+        validations: {
+          address:{
+            userName:{
+              required,
+              minLength:minLength(2)
+            },
+            streetName:{
+              required
+            },
+            postCode:{
+              required,
+              minLength:minLength(6),
+            },
+            tel:{
+              required,
+              minLength:minLength(11)
+            }
+          }
         },
         mounted(){
             this.init();
@@ -184,9 +273,37 @@
                 axios.get("/users/addressList").then((response)=>{
                     let res = response.data;
                     this.addressList = res.result;
-                    console.log(res.result);
+                    //console.log(res.result);
                     this.selectedAddrId = this.addressList[0].addressId;
                 });
+            },
+            addAddress(){
+             if(!this.address.userName&&!this.address.streetName&&!this.address.tel&&!this.address.postCode){
+                this.errorTip = true;
+                return;
+              }
+
+              var userId =  this.$cookie.get('userId');
+              axios.post("/users/addAddress",{
+                userName:this.address.userName,
+                userId:userId,
+                streetName:this.address.streetName,
+                tel:this.address.tel,
+                postCode:this.address.postCode
+              }).then(res=>{
+                var res = res.data;
+                if(res.status=='0'){
+
+                  this.init();
+                  this.is_addAdress = false;
+                  this.addAddress = {
+                    userName:'',
+                      streetName:'',
+                      postCode:null,
+                      tel:null
+                  }
+                }
+              })
             },
             expand(){
                 if(this.limit==3){
@@ -202,9 +319,8 @@
                     userId:userId
                 }).then((response)=>{
                     let res = response.data;
-                    debugger;
                     if(res.status=='0'){
-                        console.log("set default");
+                       // console.log("set default");
                         this.init();
                     }
                 })
@@ -222,7 +338,7 @@
                 }
             },
             delAddress(){
-                console.log(this.addressId)
+                //console.log(this.addressId)
                 var userId =  this.$cookie.get('userId');
                 axios.post("/users/delAddress",{
                   userId:userId,
@@ -230,7 +346,7 @@
                 }).then((response)=>{
                     let res = response.data;
                     if(res.status=="0"){
-                        console.log("del suc");
+                        //console.log("del suc");
                         this.isMdShow_del = false;
                         this.init();
                     }

@@ -277,17 +277,19 @@ router.post('/setDefault',function(req,res,next){
 })
 
 //新增地址
-router.post('addAdderss',function(req,res,next){
+router.post('/addAddress',function(req,res,next){
   var userId = req.cookies.userId,userName = req.body.userName,streetName = req.body.streetName,postCode = req.body.postCode,tel = req.body.tel;
+
   model.Address.create({
     userName:userName,
     streetName:streetName,
     postCode:postCode,
     tel:tel,
+    userId:userId,
     isDefault:0,
-    isDelete:0,
-    userId:userId
+    isDelete:0
   }).then(doc=>{
+    console.log(JSON.stringify(doc))
     res.json({
       status:'0',
       msg:'',
@@ -300,5 +302,10 @@ router.post('addAdderss',function(req,res,next){
       result:''
     });
   })
+})
+
+//支付接口
+router.post('/payMent',(req,res,next)=>{
+
 })
 module.exports = router;

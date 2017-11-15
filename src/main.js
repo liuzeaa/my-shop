@@ -9,8 +9,11 @@ import VueLazyload from 'vue-lazyload';
 import infiniteScroll from 'vue-infinite-scroll'
 import {currency} from './util/index'
 import VueCookie from 'vue-cookie';
+import Vuelidate from 'vuelidate'
+
 // Tell Vue to use the plugin
 Vue.use(VueCookie);
+Vue.use(Vuelidate)
 Vue.use(infiniteScroll);
 Vue.use(Vuex);
 Vue.use(VueLazyload,{
