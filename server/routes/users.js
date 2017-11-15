@@ -378,21 +378,39 @@ router.get('/orderList',(req,res,next)=>{
       {model:model.Address}
     ]
   }).then(doc=>{
+    /*doc1 = doc.map((item)=>{
+      var goodGroupId = item.goodGroupId.split(',');
+      model.CartList.findAll({
+        where:{
+          goodId:{
+            $in:goodGroupId
+          },
+          userId:userId
+        },
+        include:[
+          {model:model.Goods}
+        ]
+      }).then(doc2=>{
+        item["goods"] = doc2;
+        return item;
+      })
+    })*/
     res.json({
-      status:"0",
-      msg:'',
-      result:doc
-    })
+     status:"0",
+     msg:'',
+     result:doc
+     })
   })
 })
 //根据订单id获取商品信息
 router.get("/orderItem",(req,res,next)=>{
-  var goodGroupId = req.param("goodGroupId").split(',');
+  var goodGroupId = req.param("goodGroupId").split(','),userId = req.cookies.userId;
   model.CartList.findAll({
     where:{
       goodId:{
         $in:goodGroupId
-      }
+      },
+      userId:userId
     },
     include:[
       {model:model.Goods}

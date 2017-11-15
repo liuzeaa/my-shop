@@ -81,13 +81,16 @@ const OrderList = sequelize.define('orderList',{
     primaryKey: true,
     autoIncrement: true,
   },
-  orderStatus:Sequelize.STRING,
+  orderStatus:{
+    type:Sequelize.INTEGER,
+    defaultValue:0
+  },
   isDelete:{
     type:Sequelize.INTEGER,
     defaultValue:0
   },
   orderTotal:Sequelize.INTEGER,
-  goodGroupId:Sequelize.INTEGER
+  goodGroupId:Sequelize.STRING
 })
 OrderList.belongsTo(Users);
 OrderList.belongsTo(Address);

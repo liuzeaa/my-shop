@@ -12,24 +12,25 @@
           {{item.address.streetName}}
         </span>
         <span>
-          {{item.goodGroupId}}
+           <ol>
+              <li v-for="x in item.goods">
+                  <span>
+                    {{x.productNum}}
+                  </span>
+                  <span>
+                    <div class="cart-item-pic">
+                      <img v-lazy="'/static/'+x.good.productImage" >
+                    </div>
+                  </span>
+                  <span>
+                    {{x.good.productName}}
+                  </span>
+                  <span>
+                    {{x.good.salePrice}}
+                  </span>
+              </li>
+           </ol>
         </span>
-            <div v-for="x in item.goods" >
-              <span>
-                {{x.productNum}}
-              </span>
-              <span>
-                <div class="cart-item-pic">
-                  <img v-lazy="'/static/'+x.good.productImage" :alt="item.productName">
-                </div>
-              </span>
-              <span>
-                {{x.good.productName}}
-              </span>
-              <span>
-                {{x.good.salePrice}}
-              </span>
-            </div>
          <span>
           {{item.address.postCode}}
         </span>
@@ -38,6 +39,7 @@
         </span>
       </li>
     </ul>
+
     <h1>已完成订单</h1>
   </div>
 </template>
@@ -55,25 +57,29 @@
     },
     methods:{
       getOrderList(){
+        var userId =  this.$cookie.get('userId');
         axios.get('/users/orderList',{
           params:{
-            orderStatus:0
+            orderStatus:0,
+            userId:userId
           }
-        }).then(result=> {
-         /* this.orderList = result.data.result.map((item)=>{
-              var goodGroupId = item.goodGroupId;
+        }).then(res=>{
+          //this.orderList = res.data.result;
+          this.orderList = res.data.result.forEach((item)=>{
               axios.get('/users/orderItem',{
-                params:{
-                  goodGroupId:goodGroupId
-                }
-              }).then(res=>{
-                item["goods"] = res.data;
-                return item;
-             })
-          });*/
-       })
+                  params:{
+                    goodGroupId:item.goodGroupId,
+                    userId:userId
+                  }
+              }).then(res2=>{
+                  debugger;
+                item["goods"] = res2.data;
+              })
+          })
+        });
       }
-
     }
   }
 </script>
+
+
