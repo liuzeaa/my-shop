@@ -6,6 +6,7 @@ import Address from '@/views/Address'
 import OrderConfirm from '@/views/OrderConfirm'
 import OrderSuccess from '@/views/OrderSuccess'
 import OrderList from '@/views/OrderList'
+import OrderItem from '@/views/OrderItem'
 Vue.use(Router)
 
 export default new Router({
@@ -44,6 +45,11 @@ export default new Router({
       path:'/OrderList',
       name:'OrderList',
       component:OrderList
+    },
+    {
+      path:'/OrderItem',
+      name:'OrderItem',
+      component:OrderItem
     }
   ]
 })

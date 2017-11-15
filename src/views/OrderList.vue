@@ -1,7 +1,6 @@
 <template>
   <div>
     <h1>未支付订单</h1>
-    <div><span>订单编号</span></div>
     <ul>
       <li v-for="item in orderList" >
         <span>{{item.id}}</span>
@@ -12,24 +11,7 @@
           {{item.address.streetName}}
         </span>
         <span>
-           <ol>
-              <li v-for="x in item.goods">
-                  <span>
-                    {{x.productNum}}
-                  </span>
-                  <span>
-                    <div class="cart-item-pic">
-                      <img v-lazy="'/static/'+x.good.productImage" >
-                    </div>
-                  </span>
-                  <span>
-                    {{x.good.productName}}
-                  </span>
-                  <span>
-                    {{x.good.salePrice}}
-                  </span>
-              </li>
-           </ol>
+            <router-link :to="{path:'OrderItem',query:{'goodGroupId':item.goodGroupId}}">订单详情</router-link>
         </span>
          <span>
           {{item.address.postCode}}
@@ -41,6 +23,26 @@
     </ul>
 
     <h1>已完成订单</h1>
+    <ul>
+      <li v-for="item in orderList1" >
+        <span>{{item.id}}</span>
+        <span>
+          {{item.address.userName}}
+        </span>
+        <span>
+          {{item.address.streetName}}
+        </span>
+        <span>
+            <router-link :to="{path:'OrderItem',query:{'goodGroupId':item.goodGroupId}}">订单详情</router-link>
+        </span>
+        <span>
+          {{item.address.postCode}}
+        </span>
+        <span>
+          {{item.address.tel}}
+        </span>
+      </li>
+    </ul>
   </div>
 </template>
 <script>
@@ -48,12 +50,13 @@
   export default{
     data(){
       return{
-        orderList:[]
+        orderList:[],
+        orderList1:[]
       }
     },
     mounted(){
         this.getOrderList();
-
+      this.getOrderList1();
     },
     methods:{
       getOrderList(){
@@ -64,18 +67,20 @@
             userId:userId
           }
         }).then(res=>{
-          //this.orderList = res.data.result;
-          this.orderList = res.data.result.forEach((item)=>{
-              axios.get('/users/orderItem',{
-                  params:{
-                    goodGroupId:item.goodGroupId,
-                    userId:userId
-                  }
-              }).then(res2=>{
-                  debugger;
-                item["goods"] = res2.data;
-              })
-          })
+          this.orderList = res.data.result;
+
+        });
+      },
+      getOrderList1(){
+        var userId =  this.$cookie.get('userId');
+        axios.get('/users/orderList',{
+          params:{
+            orderStatus:1,
+            userId:userId
+          }
+        }).then(res=>{
+          this.orderList1 = res.data.result;
+
         });
       }
     }

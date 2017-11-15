@@ -378,23 +378,7 @@ router.get('/orderList',(req,res,next)=>{
       {model:model.Address}
     ]
   }).then(doc=>{
-    /*doc1 = doc.map((item)=>{
-      var goodGroupId = item.goodGroupId.split(',');
-      model.CartList.findAll({
-        where:{
-          goodId:{
-            $in:goodGroupId
-          },
-          userId:userId
-        },
-        include:[
-          {model:model.Goods}
-        ]
-      }).then(doc2=>{
-        item["goods"] = doc2;
-        return item;
-      })
-    })*/
+
     res.json({
      status:"0",
      msg:'',
