@@ -306,6 +306,100 @@ router.post('/addAddress',function(req,res,next){
 
 //支付接口
 router.post('/payMent',(req,res,next)=>{
-
+    var userId = req.cookies.userId,orderTotal = req.body.orderTotal,addressId = req.body.addressId,goodGroupId = req.body.goodGroupId;
+    model.OrderList.findOrCreate({
+      where:{
+        userId:userId,
+        addressId:addressId,
+        goodGroupId:goodGroupId
+      },
+      defaults:{
+        userId:userId,
+        orderTotal:orderTotal,
+        addressId:addressId,
+        goodGroupId:goodGroupId
+      }
+    }).then(doc=>{
+      console.log(JSON.stringify(doc))
+      res.json({
+        status:"0",
+        msg:'',
+        result:{
+          orderId:doc[0].id,
+          orderTotal:doc[0].orderTotal
+        }
+      });
+    }).catch((err)=>{
+      res.json({
+        status:"1",
+        msg:err.message,
+        result:''
+      });
+    })
 })
+//
+router.get("/orderDetail",(req,res,next)=>{
+  var userId = req.cookies.userId,orderId = parseInt(req.param("id"));
+  model.OrderList.findOne({
+    where:{
+      userId:userId,
+      id:orderId,
+      orderStatus:0
+    },
+    include: [{
+      model: model.Address
+    }]
+  }).then(doc=>{
+    res.json({
+      status:"0",
+      msg:'',
+      result:{
+        order:doc,
+      }
+    })
+
+  }).catch((err)=>{
+    res.json({
+      status:"1",
+      msg:err.message,
+      result:''
+    });
+  })
+})
+//获取未支付订单和已完成订单
+router.get('/orderList',(req,res,next)=>{
+  var userId = req.cookies.userId,orderStatus = req.param("orderStatus");
+  model.OrderList.findAll({
+    where:{
+      orderStatus:orderStatus,
+      userId:userId
+    },
+    include:[
+      {model:model.Address}
+    ]
+  }).then(doc=>{
+    res.json({
+      status:"0",
+      msg:'',
+      result:doc
+    })
+  })
+})
+//根据订单id获取商品信息
+router.get("/orderItem",(req,res,next)=>{
+  var goodGroupId = req.param("goodGroupId").split(',');
+  model.CartList.findAll({
+    where:{
+      goodId:{
+        $in:goodGroupId
+      }
+    },
+    include:[
+      {model:model.Goods}
+    ]
+  }).then(doc=>{
+    res.json(doc);
+  })
+})
+
 module.exports = router;

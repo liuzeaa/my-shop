@@ -273,8 +273,7 @@
                 axios.get("/users/addressList").then((response)=>{
                     let res = response.data;
                     this.addressList = res.result;
-                    //console.log(res.result);
-                    this.selectedAddrId = this.addressList[0].addressId;
+                    this.selectedAddrId = this.addressList[0].id;
                 });
             },
             addAddress(){

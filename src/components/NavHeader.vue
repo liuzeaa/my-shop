@@ -32,6 +32,7 @@
           <span class="navbar-link" v-text="nickName" v-if="nickName"></span>
           <a href="javascript:void(0)" class="navbar-link" @click="loginModalFlag=true" v-if="!nickName">登录</a>
           <a href="javascript:void(0)" class="navbar-link" @click="logOut" v-else>登出</a>
+          <a href="/#/OrderList" class="navbar-link" v-if="nickName">我的订单</a>
           <div class="navbar-cart-container">
             <span class="navbar-cart-count" v-text="cartCount" v-if="cartCount"></span>
             <a class="navbar-link" href="/#/cart">

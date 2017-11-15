@@ -26,6 +26,7 @@
                         <span>订单号：{{orderId}}</span>
                         <span>应付金额：{{orderTotal|currency('￥')}}</span>
                     </p>
+
                     <div class="order-create-btn-wrap">
                         <div class="btn-l-wrap">
                             <router-link class="btn btn--m" to="/cart">购物车列表</router-link>
@@ -50,7 +51,7 @@
         data(){
             return{
                 orderId:'',
-                orderTotal:0
+                orderTotal:0,
             }
         },
         components:{
@@ -62,20 +63,20 @@
             currency:currency
         },
         mounted(){
-            var orderId = this.$route.query.orderId;
+            var orderId = this.$route.query.orderId,userId =  this.$cookie.get('userId');;
             console.log("orderId:"+orderId);
             if(!orderId){
                 return;
             }
             axios.get("/users/orderDetail",{
                 params:{
-                    orderId:orderId
+                  id:orderId,
                 }
             }).then((response)=>{
                 let res = response.data;
                 if(res.status=='0'){
                     this.orderId = orderId;
-                    this.orderTotal = res.result.orderTotal;
+                    this.orderTotal = res.result.order.orderTotal;
                 }
             });
         }

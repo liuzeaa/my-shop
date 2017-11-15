@@ -163,10 +163,10 @@
                 axios.get("/users/cartList").then((response)=>{
                     let res = response.data;
                     this.cartList = res.result;
-                    console.log(JSON.stringify(this.cartList))
+
                     this.cartList.forEach((item)=>{
                         if(item.checked=='1'){
-                            this.subTotal += item.salePrice*item.productNum;
+                            this.subTotal += item.good.salePrice*item.productNum;
                         }
                     });
 
@@ -174,13 +174,21 @@
                 });
             },
             payMent(){
-                var addressId = this.$route.query.addressId;
-                axios.post("/users/payMent",{
+                var addressId = this.$route.query.addressId,userId =  this.$cookie.get('userId');
+                var goodGroupId = '';
+                this.cartList.map(function(item){
+                  goodGroupId+=item.goodId+',';
+                })
+                goodGroupId = goodGroupId.slice(0,goodGroupId.length-1);
+               axios.post("/users/payMent",{
+                    userId:userId,
                     addressId:addressId,
-                    orderTotal:this.orderTotal
+                    orderTotal:this.orderTotal,
+                    goodGroupId:goodGroupId
                 }).then((response)=>{
                     let res = response.data;
                     if(res.status=="0"){
+
                         this.$router.push({
                             path:'/orderSuccess?orderId='+res.result.orderId
                         })

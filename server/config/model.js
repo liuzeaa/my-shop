@@ -87,11 +87,11 @@ const OrderList = sequelize.define('orderList',{
     defaultValue:0
   },
   orderTotal:Sequelize.INTEGER,
+  goodGroupId:Sequelize.INTEGER
 })
 OrderList.belongsTo(Users);
-OrderList.belongsTo(Goods);
 OrderList.belongsTo(Address);
-//sequelize.sync();
+sequelize.sync();
 
 module.exports = {
   Users,
