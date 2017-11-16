@@ -64,7 +64,6 @@
         },
         mounted(){
             var orderId = this.$route.query.orderId,userId =  this.$cookie.get('userId');;
-            console.log("orderId:"+orderId);
             if(!orderId){
                 return;
             }

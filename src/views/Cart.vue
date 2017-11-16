@@ -248,7 +248,6 @@
 
       },
       editCart(flag,item){
-        console.log(item)
         if(flag=='add'){
           item.productNum++;
         }else if(flag=='minu'){
@@ -290,7 +289,6 @@
         }).then((response)=>{
           let res = response.data;
           if(res.status=='0'){
-            console.log("update suc");
           }
         })
       },

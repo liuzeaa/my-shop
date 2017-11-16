@@ -1,5 +1,6 @@
 <template>
     <div>
+      <nav-header></nav-header>
       <div class="item-list-wrap confirm-item-list-wrap">
         <div class="cart-item order-item">
           <div class="cart-item-head">
@@ -41,10 +42,13 @@
           </ul>
         </div>
       </div>
+      <nav-footer></nav-footer>
     </div>
 </template>
 
 <script>
+  import NavHeader from './../components/NavHeader'
+  import NavFooter from './../components/NavFooter'
   import axios from 'axios';
     export default {
         name: 'HelloWorld',
@@ -53,12 +57,15 @@
               orderItem:[]
             }
         },
+      components:{
+        NavHeader,
+        NavFooter
+      },
       mounted(){
         this.getOrderItem();
       },
       methods:{
           getOrderItem(){
-              console.log(goodGroupId)
               var goodGroupId = this.$route.query.goodGroupId,userId = this.$cookie.get('userId');
               axios.get('/users/orderItem',{
                   params:{
@@ -68,7 +75,6 @@
               }).then(res=>{
 
                   this.orderItem= res.data;
-                  console.log(this.orderItem)
               })
           }
       }

@@ -256,7 +256,6 @@
           userName:this.registerName,
           userPwd:this.registerPwd
         }).then(res=>{
-          console.log(res);
           if(res.data.status=="1"){
             this.errorTip_register2 = true;
           }
@@ -275,7 +274,6 @@
         axios.post("/users/logout").then((response)=>{
           let res = response.data;
         if(res.status=="0"){
-  //                        this.nickName = '';
           this.$store.commit("updateUserInfo",res.result.userName);
         }
       })

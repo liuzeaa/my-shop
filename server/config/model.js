@@ -14,6 +14,7 @@ const Users = sequelize.define('users',{
   },
   userName:Sequelize.STRING,
   userPwd:Sequelize.STRING,
+  nickName:Sequelize.STRING,
   isDelete:{
     type:Sequelize.INTEGER,
     defaultValue:0
@@ -94,7 +95,7 @@ const OrderList = sequelize.define('orderList',{
 })
 OrderList.belongsTo(Users);
 OrderList.belongsTo(Address);
-//sequelize.sync();
+sequelize.sync();
 
 module.exports = {
   Users,

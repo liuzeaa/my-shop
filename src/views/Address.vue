@@ -274,7 +274,6 @@
                     this.addressList = response.data.result;
 
                     this.selectedAddrId = response.data.result[0].id;
-                    console.log(this.selectedAddrId)
                 });
             },
             addAddress(){
@@ -320,7 +319,6 @@
                 }).then((response)=>{
                     let res = response.data;
                     if(res.status=='0'){
-                       // console.log("set default");
                         this.init();
                     }
                 })
@@ -338,7 +336,6 @@
                 }
             },
             delAddress(){
-                //console.log(this.addressId)
                 var userId =  this.$cookie.get('userId');
                 axios.post("/users/delAddress",{
                   userId:userId,
@@ -346,7 +343,6 @@
                 }).then((response)=>{
                     let res = response.data;
                     if(res.status=="0"){
-                        //console.log("del suc");
                         this.isMdShow_del = false;
                         this.init();
                     }

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <nav-header></nav-header>
     <h1>未支付订单</h1>
     <ul>
       <li v-for="item in orderList" >
@@ -43,9 +44,12 @@
         </span>
       </li>
     </ul>
+    <nav-footer></nav-footer>
   </div>
 </template>
 <script>
+  import NavHeader from './../components/NavHeader'
+  import NavFooter from './../components/NavFooter'
   import axios from 'axios'
   export default{
     data(){
@@ -53,6 +57,10 @@
         orderList:[],
         orderList1:[]
       }
+    },
+    components:{
+      NavHeader,
+      NavFooter
     },
     mounted(){
         this.getOrderList();

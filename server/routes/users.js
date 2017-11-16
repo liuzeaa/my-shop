@@ -37,12 +37,18 @@ router.post('/register',function(req,res,next){
           status:'0',
           msg:'',
           result:{
-            userName:doc2.userName
+            userName:doc2.userName,
+            nickName:doc2.nickName
           }
         });
       })
     }
-  })
+  }).catch(err=>{
+    res.json({
+      status:"2",
+      msg:err.message
+    });
+  });
 
 })
 // 登录接口
@@ -68,7 +74,8 @@ router.post("/login", function (req,res,next) {
       status:'0',
       msg:'',
       result:{
-        userName:doc.userName
+        userName:doc.userName,
+        nickName:doc.nickName
       }
     });
   }).catch(err=>{
