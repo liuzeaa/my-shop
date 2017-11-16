@@ -1,3 +1,1 @@
-INSERT INTO vue_shop.orderlists (orderStatus, isDelete, createdAt, updatedAt, userId, goodId, addressId, orderTotal) VALUES (1, 0, '2017-11-12 12:04:07', '2017-11-12 12:04:09', 1, 4, 1, 8296);
-INSERT INTO vue_shop.orderlists (orderStatus, isDelete, createdAt, updatedAt, userId, goodId, addressId, orderTotal) VALUES (1, 0, '2017-11-12 12:05:52', '2017-11-12 12:05:53', 1, 5, 1, 10295);
-INSERT INTO vue_shop.orderlists (orderStatus, isDelete, createdAt, updatedAt, userId, goodId, addressId, orderTotal) VALUES (1, 0, '2017-11-12 12:07:04', '2017-11-12 12:07:05', 1, 5, 1, 4380);
+INSERT INTO vue_shop.orderlists (orderStatus, isDelete, orderTotal, goodGroupId, createdAt, updatedAt, userId, addressId) VALUES (0, 0, 1513, '24,15,8,10', '2017-11-15 07:07:02', '2017-11-15 07:07:02', 1, 1);

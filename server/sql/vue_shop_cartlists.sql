@@ -1,3 +1,5 @@
-INSERT INTO vue_shop.cartlists (productNum, isDelete, createdAt, updatedAt, userId, goodId, checked) VALUES (1, 0, '2017-11-11 23:20:18', '2017-11-11 23:20:20', 1, 5, 1);
-INSERT INTO vue_shop.cartlists (productNum, isDelete, createdAt, updatedAt, userId, goodId, checked) VALUES (4, 0, '2017-11-12 11:58:46', '2017-11-12 11:58:48', 1, 17, 1);
-INSERT INTO vue_shop.cartlists (productNum, isDelete, createdAt, updatedAt, userId, goodId, checked) VALUES (1, 0, '2017-11-12 11:59:27', '2017-11-12 11:59:25', 1, 13, 1);
+INSERT INTO vue_shop.cartlists (productNum, isDelete, checked, createdAt, updatedAt, userId, goodId) VALUES (0, 1, 1, '2017-11-14 04:24:08', '2017-11-14 09:57:24', 1, 14);
+INSERT INTO vue_shop.cartlists (productNum, isDelete, checked, createdAt, updatedAt, userId, goodId) VALUES (2, 0, 1, '2017-11-14 04:27:46', '2017-11-15 02:39:39', 1, 24);
+INSERT INTO vue_shop.cartlists (productNum, isDelete, checked, createdAt, updatedAt, userId, goodId) VALUES (3, 0, 1, '2017-11-14 04:28:16', '2017-11-14 07:32:06', 1, 15);
+INSERT INTO vue_shop.cartlists (productNum, isDelete, checked, createdAt, updatedAt, userId, goodId) VALUES (1, 0, 1, '2017-11-14 04:28:26', '2017-11-14 07:32:06', 1, 8);
+INSERT INTO vue_shop.cartlists (productNum, isDelete, checked, createdAt, updatedAt, userId, goodId) VALUES (1, 0, 1, '2017-11-14 07:31:50', '2017-11-14 07:32:06', 1, 10);

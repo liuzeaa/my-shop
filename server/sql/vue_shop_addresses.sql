@@ -1,1 +1,1 @@
-INSERT INTO vue_shop.addresses (userName, streetName, postCode, tel, isDefault, isDelete, createdAt, updatedAt, userId) VALUES ('刘泽', '啊啊', '047500', '18514588715', 0, 0, '2017-11-11 23:21:33', '2017-11-11 23:21:35', 1);
+INSERT INTO vue_shop.addresses (userName, streetName, postCode, tel, isDefault, isDelete, createdAt, updatedAt, userId) VALUES ('刘泽', '啊啊', '047500', '18514588715', 1, 0, '2017-11-11 23:21:33', '2017-11-15 04:51:37', 1);
