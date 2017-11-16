@@ -196,7 +196,7 @@
           var res = res.data;
           if(res.status==0){
             var userId =  this.$cookie.get('userId');
-              axios.get('users/getCartCount?userId='+userId+'').then(res1=>{
+              axios.get('/users/getCartCount?userId='+userId+'').then(res1=>{
                 var res1= res1.data;
               if(res.status=='0'){
                 this.$store.commit("updateCartCount",res1.result);
