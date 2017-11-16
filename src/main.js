@@ -54,7 +54,7 @@ new Vue({
   },
   methods:{
     checkLogin(){
-      axios.get("users/checkLogin").then(res=> {
+      axios.get("/users/checkLogin").then(res=> {
         var res = res.data;
         if (res.status == "0") {
           this.$store.commit("updateUserInfo", res.result);
@@ -67,7 +67,7 @@ new Vue({
     },
     getCartCount(){
       var userId =  this.$cookie.get('userId');
-      axios.get('users/getCartCount?userId='+userId+'').then(res=>{
+      axios.get('/users/getCartCount?userId='+userId+'').then(res=>{
         var res= res.data;
         if(res.status=='0'){
           this.$store.commit("updateCartCount",res.result);
