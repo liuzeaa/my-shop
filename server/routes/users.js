@@ -1,19 +1,59 @@
 var express = require('express');
 var router = express.Router();
-
+var crypto = require('crypto');
 var model = require('../config/model')
 const USER = model.Users
 const connect = model.connect
 //注册接口
 router.post('/register',function(req,res,next){
+  let userName = req.body.userName,userPwd = req.body.userPwd;
+  let md5 = crypto.createHash("md5");
+  let newPas = md5.update(userPwd).digest("hex");
+  model.Users.findOne({
+    where:{
+      userName:userName
+    }
+  }).then(doc=>{
+    if(doc){
+      res.json({
+        status:'1',
+        msg:'用户已存在',
+        result:''
+      });
+    }else{
+      model.Users.create({
+        userName:userName,
+        userPwd:newPas
+      }).then(doc2=>{
+        res.cookie("userId",doc2.id,{
+          path:'/',
+          maxAge:1000*60*60
+        });
+        res.cookie("userName",doc2.userName,{
+          path:'/',
+          maxAge:1000*60*60
+        });
+        res.json({
+          status:'0',
+          msg:'',
+          result:{
+            userName:doc2.userName
+          }
+        });
+      })
+    }
+  })
 
 })
 // 登录接口
 router.post("/login", function (req,res,next) {
+  var userPwd = req.body.userPwd;
+  let md5 = crypto.createHash("md5");
+  let newPas = md5.update(userPwd).digest("hex");
   USER.findOne({
     where: {
       userName: req.body.userName,
-      userPwd: req.body.userPwd
+      userPwd:newPas
     }
   }).then(doc=>{
     res.cookie("userId",doc.id,{

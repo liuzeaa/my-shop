@@ -94,7 +94,7 @@ const OrderList = sequelize.define('orderList',{
 })
 OrderList.belongsTo(Users);
 OrderList.belongsTo(Address);
-sequelize.sync();
+//sequelize.sync();
 
 module.exports = {
   Users,

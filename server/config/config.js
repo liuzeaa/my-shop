@@ -1,6 +1,6 @@
 module.exports = {
     host:'localhost',
     username:'root',
-    password:'liuze828',
+    password:'root',
     database:'vue_shop'
 }
