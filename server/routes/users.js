@@ -23,7 +23,7 @@ router.post('/register',function(req,res,next){
     }else{
       model.Users.create({
         userName:userName,
-        userPwd:newPas
+        userPwd:newPas,
       }).then(doc2=>{
         res.cookie("userId",doc2.id,{
           path:'/',
@@ -37,6 +37,7 @@ router.post('/register',function(req,res,next){
           status:'0',
           msg:'',
           result:{
+            userId:doc2.id,
             userName:doc2.userName
           }
         });
@@ -53,7 +54,7 @@ router.post("/login", function (req,res,next) {
   USER.findOne({
     where: {
       userName: req.body.userName,
-      userPwd:newPas
+      userPwd:newPas,
     }
   }).then(doc=>{
     res.cookie("userId",doc.id,{
@@ -68,6 +69,7 @@ router.post("/login", function (req,res,next) {
       status:'0',
       msg:'',
       result:{
+        userId:doc.id,
         userName:doc.userName
       }
     });

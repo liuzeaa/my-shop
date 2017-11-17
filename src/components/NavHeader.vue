@@ -93,7 +93,7 @@
               </li>
               <li class="regi_form_input noMargin">
                 <i class="icon IconPwd"></i>
-                <input type="password" tabindex="2"  name="registerPwd" v-model="registerPwd" class="regi_login_input regi_login_input_left login-input-no input_text" placeholder="密码" @keyup.enter="login">
+                <input type="password" tabindex="2"  name="registerPwd" v-model="registerPwd" class="regi_login_input regi_login_input_left login-input-no input_text" placeholder="密码" @keyup.enter="register">
               </li>
             </ul>
           </div>

@@ -4,6 +4,7 @@ var config = require('./config');
 var sequelize = new Sequelize(config.database,config.username,config.password,{
   host:config.host,
   dialect: 'mysql',
+  timezone: '+08:00' //东八时区
 })
 
 const Users = sequelize.define('users',{
@@ -28,7 +29,12 @@ const Goods = sequelize.define('goods',{
   productName:Sequelize.STRING,
   salePrice:Sequelize.INTEGER,
   productImage:Sequelize.STRING,
-  productUrl:Sequelize.STRING,
+  productUrl:{
+    type:Sequelize.STRING,
+    validate:{
+      isUrl:true
+    }
+  },
   isDelete:{
     type:Sequelize.INTEGER,
     defaultValue:0
@@ -43,8 +49,18 @@ const Address = sequelize.define('address',{
   },
   userName:Sequelize.STRING,
   streetName:Sequelize.STRING,
-  postCode:Sequelize.STRING,
-  tel:Sequelize.STRING,
+  postCode:{
+    type:Sequelize.STRING,
+    validate: {
+      isNumeric: true
+    }
+  },
+  tel:{
+    type:Sequelize.STRING,
+    validate:{
+      is: /^1[3478]\d{9}$/i
+    }
+  },
   isDefault: {
     type:Sequelize.INTEGER,
     defaultValue:0
@@ -94,7 +110,7 @@ const OrderList = sequelize.define('orderList',{
 })
 OrderList.belongsTo(Users);
 OrderList.belongsTo(Address);
-//sequelize.sync();
+/*sequelize.sync();*/
 
 module.exports = {
   Users,
