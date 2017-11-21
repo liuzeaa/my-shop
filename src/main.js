@@ -37,10 +37,6 @@ const store = new Vuex.Store({
     updateUserInfo:(state,nickName)=>state.nickName=nickName,
     //获取购物车数量
     updateCartCount:(state,cartCount)=>state.cartCount += cartCount,
-    /*//购物车数量增加
-    increment:(state,cartCount)=>state.cartCount = state.cartCount+cartCount,
-    //购物车数量减少
-    decrement:(state,cartCount)=>state.cartCount = state.cartCount-cartCount*/
   }
 })
 /* eslint-disable no-new */

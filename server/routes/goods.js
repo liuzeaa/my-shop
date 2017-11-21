@@ -59,54 +59,57 @@ router.get('/list',function(req,res,next){
     });
   })
 })
+
 router.post('/addCart',function(req,res,next){
 
   var userId = req.cookies.userId,productId = req.body.goodId;
-  console.log(userId,productId)
-  model.CartList.findOrCreate({
+  model.CartList.findOne({
     where:{
       userId:userId,
       goodId:productId
-    },
-    defaults:{
-      userId:userId,
-      goodId:productId,
-      checked:1,
-      isDelete:0,
-      productNum:0
     }
-  }).spread(function(user, created) {
-   if(user){
-      console.log(JSON.stringify(user))
-
+  }).then(doc=>{
+    if(doc){
       let productNum;
-      if(user.isDelete==1){
-        productNum = 1
+      if(doc.isDelete===1){
+        productNum = 1;
+        res.json({
+          status:'0',
+          msg:'',
+          result:"suc"
+        });
       }else{
-        productNum = user.productNum+1;
+        productNum = doc.productNum+1;
       }
       model.CartList.update({
         productNum:productNum,
         isDelete:0
       },{
         where:{
-          goodId:user.goodId,
+          goodId:doc.goodId,
         }
-      }).then(doc=>{
+      }).then(doc2=>{
         res.json({
-          status:'0',
+          status:'1',
           msg:'',
           result:"suc"
         });
-      }).catch(err=>{
+      })
+    } else{
+      model.CartList.create({
+        userId:userId,
+        goodId:productId,
+        checked:1,
+        isDelete:0,
+        productNum:1
+      }).then(doc3=>{
         res.json({
-          status:'1',
-          msg:err.message,
-          result:''
+          status:'2',
+          msg:'',
+          result:"suc"
         });
       })
     }
-  });
-
+  })
 })
 module.exports = router;

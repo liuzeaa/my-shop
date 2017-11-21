@@ -194,14 +194,11 @@
           goodId:productId
         }).then((res)=>{
           var res = res.data;
-          if(res.status==0){
-            var userId =  this.$cookie.get('userId');
-              axios.get('/users/getCartCount?userId='+userId+'').then(res1=>{
-                var res1= res1.data;
-              if(res.status=='0'){
-                this.$store.commit("updateCartCount",res1.result);
-              }
-            })
+          debugger;
+          if(res.status==0 || res.status==2){
+            this.$store.commit("updateCartCount",1);
+            this.mdShowCart = true;
+          }else if(res.status==1){
             this.mdShowCart = true;
           }else{
             this.mdShow = true;
