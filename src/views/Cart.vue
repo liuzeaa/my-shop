@@ -241,7 +241,7 @@
           if(res.status == '0'){
             this.modalConfirm = false;
             var delCount = this.delItem.productNum;
-            this.$store.commit("decrement",1);
+            this.$store.commit("updateCartCount",-1);
             this.init();
           }
         });
