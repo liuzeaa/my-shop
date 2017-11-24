@@ -51,6 +51,8 @@
   import NavHeader from './../components/NavHeader'
   import NavFooter from './../components/NavFooter'
   import axios from 'axios'
+  axios.defaults.withCredentials=true;
+  import {host} from '../config'
   export default{
     data(){
       return{
@@ -69,7 +71,7 @@
     methods:{
       getOrderList(){
         var userId =  this.$cookie.get('userId');
-        axios.get('/users/orderList',{
+        axios.get(host+'/users/orderList',{
           params:{
             orderStatus:0,
             userId:userId
@@ -81,7 +83,7 @@
       },
       getOrderList1(){
         var userId =  this.$cookie.get('userId');
-        axios.get('/users/orderList',{
+        axios.get(host+'/users/orderList',{
           params:{
             orderStatus:1,
             userId:userId

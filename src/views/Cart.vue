@@ -176,6 +176,8 @@
   import Modal from './../components/Modal'
   import {currency} from './../util/index'
   import axios from 'axios';
+  axios.defaults.withCredentials=true
+  import {host} from '../config'
   export default {
     data() {
       return {
@@ -219,7 +221,7 @@
     },
     methods: {
       init(){
-        axios.get("/users/cartList").then((response)=>{
+        axios.get(host+"/users/cartList").then((response)=>{
           let res = response.data;
           this.cartList = res.result;
         });
@@ -233,7 +235,7 @@
       },
       delCart(){
         var userId =  this.$cookie.get('userId');
-        axios.patch("/users/cartDel",{
+        axios.patch(host+"/users/cartDel",{
           userId:userId,
           id: this.delItem.id
         }).then((response)=>{
@@ -260,7 +262,7 @@
           item.checked = item.checked=="1"?'0':'1';
         }
         var userId =  this.$cookie.get('userId');
-        axios.post("/users/cartEdit",{
+        axios.post(host+"/users/cartEdit",{
           userId:userId,
           id: item.id,
           productNum:item.productNum,
@@ -283,7 +285,7 @@
           item.checked = flag?'1':'0';
         })
         var userId =  this.$cookie.get('userId');
-        axios.patch("/users/editCheckAll",{
+        axios.patch(host+"/users/editCheckAll",{
           checkAll:flag,
           userId:userId
         }).then((response)=>{

@@ -136,6 +136,8 @@
     import NavBread from './../components/NavBread'
     import {currency} from './../util/index'
     import axios from 'axios'
+    axios.defaults.withCredentials=true;
+    import {host} from '../config'
     export default{
         data(){
             return{
@@ -160,7 +162,7 @@
         },
         methods:{
             init(){
-                axios.get("/users/cartList").then((response)=>{
+                axios.get(host+"/users/cartList").then((response)=>{
                     let res = response.data;
                     this.cartList = res.result;
 
@@ -180,7 +182,7 @@
                   goodGroupId+=item.goodId+',';
                 })
                 goodGroupId = goodGroupId.slice(0,goodGroupId.length-1);
-               axios.post("/users/payMent",{
+               axios.post(host+"/users/payMent",{
                     userId:userId,
                     addressId:addressId,
                     orderTotal:this.orderTotal,

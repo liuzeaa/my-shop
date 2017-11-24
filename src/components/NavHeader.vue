@@ -188,7 +188,9 @@
 <script>
   import './../assets/css/login.css'
   import axios from 'axios'
+  axios.defaults.withCredentials=true
   import { mapState,mapGetters } from 'vuex'
+  import {host} from '../config'
   export default {
     data(){
       return{
@@ -212,7 +214,7 @@
     },
     methods: {
       checkLogin(){
-        axios.get("/users/checkLogin").then((response)=>{
+        axios.get(host+"/users/checkLogin").then((response)=>{
           var res = response.data;
           var path = this.$route.pathname;
           if(res.status=="0"){
@@ -230,7 +232,7 @@
           this.errorTip = true;
           return;
         }
-        axios.post("/users/login",{
+        axios.post(host+"/users/login",{
           userName:this.userName,
           userPwd:this.userPwd
         }).then((response)=>{
@@ -252,7 +254,7 @@
           this.errorTip_register1 = true;
           return;
         }
-        axios.post('/users/register',{
+        axios.post(host+'/users/register',{
           userName:this.registerName,
           userPwd:this.registerPwd
         }).then(res=>{
@@ -271,7 +273,7 @@
       },
       logOut(){
 
-        axios.post("/users/logout").then((response)=>{
+        axios.post(host+"/users/logout").then((response)=>{
           let res = response.data;
         if(res.status=="0"){
           this.$store.commit("updateUserInfo",res.result.userName);
@@ -280,7 +282,7 @@
       },
       getCartCount(){
        var userId =  this.$cookie.get('userId');
-        axios.get("/users/getCartCount?userId="+userId+"").then(res=>{
+        axios.get(host+"/users/getCartCount?userId="+userId+"").then(res=>{
           var res = res.data;
         this.$store.commit("updateCartCount",res.result);
       });

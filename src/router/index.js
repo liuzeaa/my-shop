@@ -1,12 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import GoodsList from '@/views/GoodsList.vue';
-import Cart from '@/views/Cart';
-import Address from '@/views/Address'
-import OrderConfirm from '@/views/OrderConfirm'
-import OrderSuccess from '@/views/OrderSuccess'
-import OrderList from '@/views/OrderList'
-import OrderItem from '@/views/OrderItem'
+const GoodsList = ()=> import('@/views/GoodsList');
+const Cart = ()=> import('@/views/Cart');
+const Address = ()=> import('@/views/Address');
+const OrderConfirm = ()=> import('@/views/OrderConfirm');
+const OrderSuccess = ()=> import('@/views/OrderSuccess');
+const OrderList = ()=> import('@/views/OrderList');
+const OrderItem = ()=> import('@/views/OrderItem');
+
 Vue.use(Router)
 
 export default new Router({
