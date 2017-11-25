@@ -25,8 +25,21 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-//app.use(cors());
-app.all('*', function(req, res, next) {
+var whitelist = ['http://localhost:8080', 'http://localhost:8081']
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials:true
+}
+
+app.use(cors(corsOptions));
+/*app.all('*', function(req, res, next) {
   // CORS配置
   res.header("Access-Control-Allow-Origin", "http://localhost:8080");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -35,7 +48,7 @@ app.all('*', function(req, res, next) {
   res.header("X-Powered-By",' 3.2.1')
   res.header("Content-Type", "application/json;charset=utf-8");
   next();
-});
+});*/
 app.use(function(req,res,next){
   if(req.cookies.userId){
     next();
