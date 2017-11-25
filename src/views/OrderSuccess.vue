@@ -47,6 +47,8 @@
     import NavBread from './../components/NavBread'
     import {currency} from './../util/index'
     import axios from 'axios'
+    axios.defaults.withCredentials=true
+    import {host} from '../config'
     export default{
         data(){
             return{
@@ -67,7 +69,7 @@
             if(!orderId){
                 return;
             }
-            axios.get("/users/orderDetail",{
+            axios.get(host+"/users/orderDetail",{
                 params:{
                   id:orderId,
                 }

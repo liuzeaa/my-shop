@@ -50,6 +50,8 @@
   import NavHeader from './../components/NavHeader'
   import NavFooter from './../components/NavFooter'
   import axios from 'axios';
+  axios.defaults.withCredentials=true
+  import {host} from '../config'
     export default {
         name: 'HelloWorld',
         data () {
@@ -67,7 +69,7 @@
       methods:{
           getOrderItem(){
               var goodGroupId = this.$route.query.goodGroupId,userId = this.$cookie.get('userId');
-              axios.get('/users/orderItem',{
+              axios.get(host+'/users/orderItem',{
                   params:{
                     goodGroupId:goodGroupId,
                     userId:userId

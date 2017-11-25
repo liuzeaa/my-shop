@@ -85,6 +85,8 @@
   import NavFooter from './../components/NavFooter.vue'
   import Modal from './../components/Modal.vue'
   import axios from 'axios'
+  axios.defaults.withCredentials=true
+  import {host} from '../config'
   export default{
     data() {
       return {
@@ -139,7 +141,7 @@
     methods: {
       getGoodsList(flag){
         this.loading = true;
-        axios.get("/goods/list", {
+        axios.get(host+"/goods/list", {
           params:{
             page:this.page,
             pageSize:this.pageSize,
@@ -190,7 +192,7 @@
         }, 500)
       },
       addCart(productId){
-        axios.post("/goods/addCart",{
+        axios.post(host+"/goods/addCart",{
           goodId:productId
         }).then((res)=>{
           var res = res.data;

@@ -35,7 +35,7 @@
           <a href="javascript:void(0)" class="navbar-link" @click="logOut" v-else>登出</a>
           <a href="/#/OrderList" class="navbar-link" v-if="nickName">我的订单</a>
           <div class="navbar-cart-container">
-            <span class="navbar-cart-count" v-text="cartCount" v-if="cartCount"></span>
+            <span class="navbar-cart-count" v-text="cartCount" v-if="cartCount&&showCart"></span>
             <a class="navbar-link" href="/#/cart">
               <svg class="navbar-cart-logo">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-cart"></use>
@@ -188,19 +188,22 @@
 <script>
   import './../assets/css/login.css'
   import axios from 'axios'
+  axios.defaults.withCredentials=true
+  import {host} from '../config'
   import { mapState,mapGetters } from 'vuex'
   export default {
     data(){
       return{
-        userName:'',
-        userPwd:'',
+        userName:'liuze',
+        userPwd:'123456',
         registerName:'',
         registerPwd:'',
         errorTip:false,
         errorTip_register1:false,
         errorTip_register2:false,
         loginModalFlag:false,
-        registerModalFlag:false
+        registerModalFlag:false,
+        showCart:false
       }
     },
     computed: {
@@ -212,11 +215,12 @@
     },
     methods: {
       checkLogin(){
-        axios.get("/users/checkLogin").then((response)=>{
+        axios.get(host+"/users/checkLogin").then((response)=>{
           var res = response.data;
           var path = this.$route.pathname;
           if(res.status=="0"){
             this.$store.commit("updateUserInfo",res.result);
+            this.showCart=true;
             this.loginModalFlag = false;
           }else{
             if(this.$route.path!="/goods"){
@@ -230,7 +234,7 @@
           this.errorTip = true;
           return;
         }
-        axios.post("/users/login",{
+        axios.post(host+"/users/login",{
           userName:this.userName,
           userPwd:this.userPwd
         }).then((response)=>{
@@ -252,7 +256,7 @@
           this.errorTip_register1 = true;
           return;
         }
-        axios.post('/users/register',{
+        axios.post(host+'/users/register',{
           userName:this.registerName,
           userPwd:this.registerPwd
         }).then(res=>{
@@ -265,23 +269,26 @@
             this.registerModalFlag = false;
 
             this.$store.commit("updateUserInfo",res.data.result.userName);
+            this.showCart = false;
             this.getCartCount();
           }
         })
       },
       logOut(){
 
-        axios.post("/users/logout").then((response)=>{
+        axios.post(host+"/users/logout").then((response)=>{
           let res = response.data;
         if(res.status=="0"){
           this.$store.commit("updateUserInfo",res.result.userName);
+          this.showCart = false;
         }
       })
       },
       getCartCount(){
        var userId =  this.$cookie.get('userId');
-        axios.get("/users/getCartCount?userId="+userId+"").then(res=>{
+        axios.get(host+"/users/getCartCount?userId="+userId+"").then(res=>{
           var res = res.data;
+          this.showCart = true;
         this.$store.commit("updateCartCount",res.result);
       });
       }

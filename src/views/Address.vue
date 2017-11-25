@@ -214,6 +214,8 @@
     import Modal from './../components/Modal'
     import {currency} from './../util/index'
     import axios from 'axios';
+    axios.defaults.withCredentials=true
+    import {host} from '../config'
     import { required, minLength } from 'vuelidate/lib/validators'
     export default{
         data(){
@@ -270,7 +272,7 @@
         },
         methods:{
             init(){
-                axios.get("/users/addressList").then((response)=>{
+                axios.get(host+"/users/addressList").then((response)=>{
                     this.addressList = response.data.result;
 
                     this.selectedAddrId = response.data.result[0].id;
@@ -283,7 +285,7 @@
               }
 
               var userId =  this.$cookie.get('userId');
-              axios.post("/users/addAddress",{
+              axios.post(host+"/users/addAddress",{
                 userName:this.address.userName,
                 userId:userId,
                 streetName:this.address.streetName,
@@ -313,7 +315,7 @@
             },
             setDefault(addressId){
                 var userId =  this.$cookie.get('userId');
-                axios.post("/users/setDefault",{
+                axios.post(host+"/users/setDefault",{
                     id:addressId,
                     userId:userId
                 }).then((response)=>{
@@ -337,7 +339,7 @@
             },
             delAddress(){
                 var userId =  this.$cookie.get('userId');
-                axios.post("/users/delAddress",{
+                axios.post(host+"/users/delAddress",{
                   userId:userId,
                   id: this.addressId
                 }).then((response)=>{
